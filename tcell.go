@@ -23,6 +23,10 @@ func createScreen() (tcell.Screen, error) {
 	return screen, nil
 }
 
+func eventIsRune(event *tcell.EventKey, r rune) bool {
+	return event.Key() == tcell.KeyRune && event.Rune() == r && event.Modifiers() == 0
+}
+
 func drawRectangle(screen tcell.Screen, xStart, yStart, width, height int, style tcell.Style) {
 	for y := yStart; y < yStart+height; y++ {
 		for x := xStart; x < xStart+width; x++ {

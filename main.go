@@ -57,19 +57,19 @@ func main() {
 					oldGameSession.Mutex.Unlock()
 					gameSession.Mutex.Unlock()
 					renderNotificationChannel <- true
-				} else if event.Key() == tcell.KeyDown {
+				} else if event.Key() == tcell.KeyDown || eventIsRune(event, 's') {
 					gameSession.Mutex.Lock()
 					gameSession.Down()
 					gameSession.Mutex.Unlock()
-				} else if event.Key() == tcell.KeyUp {
+				} else if event.Key() == tcell.KeyUp || eventIsRune(event, 'w') {
 					gameSession.Mutex.Lock()
 					gameSession.Up()
 					gameSession.Mutex.Unlock()
-				} else if event.Key() == tcell.KeyLeft {
+				} else if event.Key() == tcell.KeyLeft || eventIsRune(event, 'a') {
 					gameSession.Mutex.Lock()
 					gameSession.Left()
 					gameSession.Mutex.Unlock()
-				} else if event.Key() == tcell.KeyRight {
+				} else if event.Key() == tcell.KeyRight || eventIsRune(event, 'd') {
 					gameSession.Mutex.Lock()
 					gameSession.Right()
 					gameSession.Mutex.Unlock()
