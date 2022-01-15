@@ -62,11 +62,11 @@ func main() {
 					gameSession.Mutex.Unlock()
 				} else if event.Key() == tcell.KeyLeft {
 					gameSession.Mutex.Lock()
-					gameSession.ShiftLeft()
+					gameSession.Left()
 					gameSession.Mutex.Unlock()
 				} else if event.Key() == tcell.KeyRight {
 					gameSession.Mutex.Lock()
-					gameSession.ShiftRight()
+					gameSession.Right()
 					gameSession.Mutex.Unlock()
 				}
 			case *tcell.EventResize:

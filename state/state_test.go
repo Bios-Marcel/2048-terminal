@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestGameSession_Dow(t *testing.T) {
+func TestGameSession_Down(t *testing.T) {
 	tests := []shiftTest{
 		{
 			name: "combine twice in one column and shift both",
@@ -17,7 +17,7 @@ func TestGameSession_Dow(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.shiftDownNoFill },
+			move: func(session *GameSession) func() { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -33,7 +33,7 @@ func TestGameSession_Dow(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.shiftDownNoFill },
+			move: func(session *GameSession) func() { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -49,7 +49,7 @@ func TestGameSession_Dow(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.shiftDownNoFill },
+			move: func(session *GameSession) func() { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -65,7 +65,7 @@ func TestGameSession_Dow(t *testing.T) {
 				{0, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.shiftDownNoFill },
+			move: func(session *GameSession) func() { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -81,7 +81,7 @@ func TestGameSession_Dow(t *testing.T) {
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.shiftDownNoFill },
+			move: func(session *GameSession) func() { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -97,7 +97,7 @@ func TestGameSession_Dow(t *testing.T) {
 				{0, 0, 0, 2},
 				{0, 0, 0, 2},
 			},
-			move: func(session *GameSession) func() { return session.shiftDownNoFill },
+			move: func(session *GameSession) func() { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -113,7 +113,7 @@ func TestGameSession_Dow(t *testing.T) {
 				{0, 0, 0, 8},
 				{0, 0, 0, 16},
 			},
-			move: func(session *GameSession) func() { return session.shiftDownNoFill },
+			move: func(session *GameSession) func() { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 2},
 				{0, 0, 0, 4},
@@ -125,7 +125,8 @@ func TestGameSession_Dow(t *testing.T) {
 
 	runShiftTests(t, tests)
 }
-func TestGameSession_ShiftUp(t *testing.T) {
+
+func TestGameSession_Up(t *testing.T) {
 	tests := []shiftTest{
 		{
 			name: "combine twice in one column and shift both",
@@ -192,7 +193,7 @@ func TestGameSession_ShiftUp(t *testing.T) {
 			},
 		},
 		{
-			name: "shift one cell all the way up",
+			name: "shift one cell all the way",
 			board: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -234,6 +235,244 @@ func TestGameSession_ShiftUp(t *testing.T) {
 			move: func(session *GameSession) func() { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 2},
+				{0, 0, 0, 4},
+				{0, 0, 0, 8},
+				{0, 0, 0, 16},
+			},
+		},
+	}
+
+	runShiftTests(t, tests)
+}
+
+func TestGameSession_Left(t *testing.T) {
+	tests := []shiftTest{
+		{
+			name: "combine twice in one column and shift both",
+			board: [4][4]uint{
+				{2, 2, 2, 2},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.leftNoFill },
+			expectedBoard: [4][4]uint{
+				{4, 4, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+		},
+		{
+			name: "combine once in one column and shift one cell (1)",
+			board: [4][4]uint{
+				{0, 2, 2, 2},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.leftNoFill },
+			expectedBoard: [4][4]uint{
+				{4, 2, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+		},
+		{
+			name: "combine once in one column and shift one cell (2)",
+			board: [4][4]uint{
+				{2, 0, 2, 2},
+				{0, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.leftNoFill },
+			expectedBoard: [4][4]uint{
+				{4, 2, 0, 0},
+				{0, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+		},
+		{
+			name: "shift one cell",
+			board: [4][4]uint{
+				{0, 2, 0, 0},
+				{2, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.leftNoFill },
+			expectedBoard: [4][4]uint{
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+			},
+		},
+		{
+			name: "shift one cell all the way",
+			board: [4][4]uint{
+				{0, 0, 0, 2},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.leftNoFill },
+			expectedBoard: [4][4]uint{
+				{2, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+		},
+		{
+			name: "combine twice and shift both, but last column",
+			board: [4][4]uint{
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{2, 2, 2, 2},
+			},
+			move: func(session *GameSession) func() { return session.leftNoFill },
+			expectedBoard: [4][4]uint{
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{4, 4, 0, 0},
+			},
+		},
+		{
+			name: "do nothing",
+			board: [4][4]uint{
+				{2, 4, 8, 16},
+				{4, 0, 0, 0},
+				{8, 0, 0, 0},
+				{16, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.leftNoFill },
+			expectedBoard: [4][4]uint{
+				{2, 4, 8, 16},
+				{4, 0, 0, 0},
+				{8, 0, 0, 0},
+				{16, 0, 0, 0},
+			},
+		},
+	}
+
+	runShiftTests(t, tests)
+}
+
+func TestGameSession_Right(t *testing.T) {
+	tests := []shiftTest{
+		{
+			name: "combine twice in one column and shift both",
+			board: [4][4]uint{
+				{2, 2, 2, 2},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.rightNoFill },
+			expectedBoard: [4][4]uint{
+				{0, 0, 4, 4},
+				{0, 0, 0, 2},
+				{0, 0, 0, 2},
+				{0, 0, 0, 2},
+			},
+		},
+		{
+			name: "combine once in one column and shift one cell (1)",
+			board: [4][4]uint{
+				{0, 2, 2, 2},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.rightNoFill },
+			expectedBoard: [4][4]uint{
+				{0, 0, 2, 4},
+				{0, 0, 0, 2},
+				{0, 0, 0, 2},
+				{0, 0, 0, 2},
+			},
+		},
+		{
+			name: "combine once in one column and shift one cell (2)",
+			board: [4][4]uint{
+				{2, 0, 2, 2},
+				{0, 0, 0, 0},
+				{2, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.rightNoFill },
+			expectedBoard: [4][4]uint{
+				{0, 0, 2, 4},
+				{0, 0, 0, 0},
+				{0, 0, 0, 2},
+				{0, 0, 0, 2},
+			},
+		},
+		{
+			name: "shift one cell",
+			board: [4][4]uint{
+				{0, 2, 0, 0},
+				{2, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.rightNoFill },
+			expectedBoard: [4][4]uint{
+				{0, 0, 0, 2},
+				{0, 0, 0, 2},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+			},
+		},
+		{
+			name: "shift one cell all the way",
+			board: [4][4]uint{
+				{2, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{2, 0, 0, 0},
+			},
+			move: func(session *GameSession) func() { return session.rightNoFill },
+			expectedBoard: [4][4]uint{
+				{0, 0, 0, 2},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 2},
+			},
+		},
+		{
+			name: "combine twice and shift both, but last column",
+			board: [4][4]uint{
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{2, 2, 2, 2},
+			},
+			move: func(session *GameSession) func() { return session.rightNoFill },
+			expectedBoard: [4][4]uint{
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 0, 0},
+				{0, 0, 4, 4},
+			},
+		},
+		{
+			name: "do nothing",
+			board: [4][4]uint{
+				{2, 4, 8, 16},
+				{0, 0, 0, 4},
+				{0, 0, 0, 8},
+				{0, 0, 0, 16},
+			},
+			move: func(session *GameSession) func() { return session.rightNoFill },
+			expectedBoard: [4][4]uint{
+				{2, 4, 8, 16},
 				{0, 0, 0, 4},
 				{0, 0, 0, 8},
 				{0, 0, 0, 16},
