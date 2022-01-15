@@ -47,14 +47,20 @@ func (renderer *renderer) drawGameBoard(screen tcell.Screen, session *state.Game
 
 			for y := startY; y < startY+cellHeight; y++ {
 				for x := startX; x < startX+cellWidth; x++ {
-					screen.SetContent(x, y, ' ', nil, style)
+					screen.SetContent(x, y, 0, nil, style)
 				}
 			}
 
-			for index, r := range []rune(strconv.FormatUint(uint64(cell), 10)) {
-				screen.SetContent(startX+index, startY+(cellHeight-1)/2, r, nil, style)
+			runes := []rune(strconv.FormatUint(uint64(cell), 10))
+			xOffset := (cellWidth/2 - 1) - (len(runes)-1)/2
+			for index, r := range runes {
+				screen.SetContent(startX+xOffset+index, startY+(cellHeight-1)/2, r, nil, style)
 			}
 		}
+	}
+
+	if session.GameOver {
+
 	}
 
 	screen.Show()
