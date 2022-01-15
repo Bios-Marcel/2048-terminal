@@ -17,7 +17,7 @@ func TestGameSession_Down(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.downNoFill },
+			move: func(session *GameSession) func() bool { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -33,7 +33,7 @@ func TestGameSession_Down(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.downNoFill },
+			move: func(session *GameSession) func() bool { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -49,7 +49,7 @@ func TestGameSession_Down(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.downNoFill },
+			move: func(session *GameSession) func() bool { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -65,7 +65,7 @@ func TestGameSession_Down(t *testing.T) {
 				{0, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.downNoFill },
+			move: func(session *GameSession) func() bool { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -81,7 +81,7 @@ func TestGameSession_Down(t *testing.T) {
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.downNoFill },
+			move: func(session *GameSession) func() bool { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -97,7 +97,7 @@ func TestGameSession_Down(t *testing.T) {
 				{0, 0, 0, 2},
 				{0, 0, 0, 2},
 			},
-			move: func(session *GameSession) func() { return session.downNoFill },
+			move: func(session *GameSession) func() bool { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -113,7 +113,7 @@ func TestGameSession_Down(t *testing.T) {
 				{0, 0, 0, 8},
 				{0, 0, 0, 16},
 			},
-			move: func(session *GameSession) func() { return session.downNoFill },
+			move: func(session *GameSession) func() bool { return session.downNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 2},
 				{0, 0, 0, 4},
@@ -136,7 +136,7 @@ func TestGameSession_Up(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.upNoFill },
+			move: func(session *GameSession) func() bool { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{4, 0, 0, 0},
 				{4, 0, 0, 0},
@@ -152,7 +152,7 @@ func TestGameSession_Up(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.upNoFill },
+			move: func(session *GameSession) func() bool { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{4, 0, 0, 0},
 				{2, 0, 0, 0},
@@ -168,7 +168,7 @@ func TestGameSession_Up(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.upNoFill },
+			move: func(session *GameSession) func() bool { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{4, 0, 0, 0},
 				{2, 0, 0, 0},
@@ -184,7 +184,7 @@ func TestGameSession_Up(t *testing.T) {
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.upNoFill },
+			move: func(session *GameSession) func() bool { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{2, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -200,7 +200,7 @@ func TestGameSession_Up(t *testing.T) {
 				{0, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.upNoFill },
+			move: func(session *GameSession) func() bool { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{2, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -216,7 +216,7 @@ func TestGameSession_Up(t *testing.T) {
 				{0, 0, 0, 2},
 				{0, 0, 0, 2},
 			},
-			move: func(session *GameSession) func() { return session.upNoFill },
+			move: func(session *GameSession) func() bool { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 4},
 				{0, 0, 0, 4},
@@ -232,7 +232,7 @@ func TestGameSession_Up(t *testing.T) {
 				{0, 0, 0, 8},
 				{0, 0, 0, 16},
 			},
-			move: func(session *GameSession) func() { return session.upNoFill },
+			move: func(session *GameSession) func() bool { return session.upNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 2},
 				{0, 0, 0, 4},
@@ -255,7 +255,7 @@ func TestGameSession_Left(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.leftNoFill },
+			move: func(session *GameSession) func() bool { return session.leftNoFill },
 			expectedBoard: [4][4]uint{
 				{4, 4, 0, 0},
 				{2, 0, 0, 0},
@@ -271,7 +271,7 @@ func TestGameSession_Left(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.leftNoFill },
+			move: func(session *GameSession) func() bool { return session.leftNoFill },
 			expectedBoard: [4][4]uint{
 				{4, 2, 0, 0},
 				{2, 0, 0, 0},
@@ -287,7 +287,7 @@ func TestGameSession_Left(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.leftNoFill },
+			move: func(session *GameSession) func() bool { return session.leftNoFill },
 			expectedBoard: [4][4]uint{
 				{4, 2, 0, 0},
 				{0, 0, 0, 0},
@@ -303,7 +303,7 @@ func TestGameSession_Left(t *testing.T) {
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.leftNoFill },
+			move: func(session *GameSession) func() bool { return session.leftNoFill },
 			expectedBoard: [4][4]uint{
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
@@ -319,7 +319,7 @@ func TestGameSession_Left(t *testing.T) {
 				{0, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.leftNoFill },
+			move: func(session *GameSession) func() bool { return session.leftNoFill },
 			expectedBoard: [4][4]uint{
 				{2, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -335,7 +335,7 @@ func TestGameSession_Left(t *testing.T) {
 				{0, 0, 0, 0},
 				{2, 2, 2, 2},
 			},
-			move: func(session *GameSession) func() { return session.leftNoFill },
+			move: func(session *GameSession) func() bool { return session.leftNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -351,7 +351,7 @@ func TestGameSession_Left(t *testing.T) {
 				{8, 0, 0, 0},
 				{16, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.leftNoFill },
+			move: func(session *GameSession) func() bool { return session.leftNoFill },
 			expectedBoard: [4][4]uint{
 				{2, 4, 8, 16},
 				{4, 0, 0, 0},
@@ -374,7 +374,7 @@ func TestGameSession_Right(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.rightNoFill },
+			move: func(session *GameSession) func() bool { return session.rightNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 4, 4},
 				{0, 0, 0, 2},
@@ -390,7 +390,7 @@ func TestGameSession_Right(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.rightNoFill },
+			move: func(session *GameSession) func() bool { return session.rightNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 2, 4},
 				{0, 0, 0, 2},
@@ -406,7 +406,7 @@ func TestGameSession_Right(t *testing.T) {
 				{2, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.rightNoFill },
+			move: func(session *GameSession) func() bool { return session.rightNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 2, 4},
 				{0, 0, 0, 0},
@@ -422,7 +422,7 @@ func TestGameSession_Right(t *testing.T) {
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.rightNoFill },
+			move: func(session *GameSession) func() bool { return session.rightNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 2},
 				{0, 0, 0, 2},
@@ -438,7 +438,7 @@ func TestGameSession_Right(t *testing.T) {
 				{0, 0, 0, 0},
 				{2, 0, 0, 0},
 			},
-			move: func(session *GameSession) func() { return session.rightNoFill },
+			move: func(session *GameSession) func() bool { return session.rightNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 2},
 				{0, 0, 0, 0},
@@ -454,7 +454,7 @@ func TestGameSession_Right(t *testing.T) {
 				{0, 0, 0, 0},
 				{2, 2, 2, 2},
 			},
-			move: func(session *GameSession) func() { return session.rightNoFill },
+			move: func(session *GameSession) func() bool { return session.rightNoFill },
 			expectedBoard: [4][4]uint{
 				{0, 0, 0, 0},
 				{0, 0, 0, 0},
@@ -470,7 +470,7 @@ func TestGameSession_Right(t *testing.T) {
 				{0, 0, 0, 8},
 				{0, 0, 0, 16},
 			},
-			move: func(session *GameSession) func() { return session.rightNoFill },
+			move: func(session *GameSession) func() bool { return session.rightNoFill },
 			expectedBoard: [4][4]uint{
 				{2, 4, 8, 16},
 				{0, 0, 0, 4},
@@ -486,7 +486,7 @@ func TestGameSession_Right(t *testing.T) {
 type shiftTest struct {
 	name          string
 	board         [4][4]uint
-	move          func(*GameSession) func()
+	move          func(*GameSession) func() bool
 	expectedBoard [4][4]uint
 }
 
