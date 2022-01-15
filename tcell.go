@@ -22,3 +22,11 @@ func createScreen() (tcell.Screen, error) {
 
 	return screen, nil
 }
+
+func drawRectangle(screen tcell.Screen, xStart, yStart, width, height int, style tcell.Style) {
+	for y := yStart; y < yStart+height; y++ {
+		for x := xStart; x < xStart+width; x++ {
+			screen.SetContent(x, y, 0, nil, style)
+		}
+	}
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/Bios-Marcel/2048/state"
@@ -45,11 +46,7 @@ func (renderer *renderer) drawGameBoard(screen tcell.Screen, session *state.Game
 				style = defaultCellBackground
 			}
 
-			for y := startY; y < startY+cellHeight; y++ {
-				for x := startX; x < startX+cellWidth; x++ {
-					screen.SetContent(x, y, 0, nil, style)
-				}
-			}
+			drawRectangle(screen, startX, startY, cellWidth, cellHeight, style)
 
 			runes := []rune(strconv.FormatUint(uint64(cell), 10))
 			xOffset := (cellWidth/2 - 1) - (len(runes)-1)/2
@@ -60,7 +57,17 @@ func (renderer *renderer) drawGameBoard(screen tcell.Screen, session *state.Game
 	}
 
 	if session.GameOver {
-
+		boardWidth := cellWidth*len(session.GameBoard) + len(session.GameBoard) - 1
+		boardHeight := cellHeight*len(session.GameBoard) + len(session.GameBoard) - 1
+		gameOverBoxHeight := 3
+		text := fmt.Sprintf("Game Over; Score: %d", session.Score())
+		startX := boardWidth/2 - len(text)/2 + 1
+		startY := boardHeight/2 - gameOverBoxHeight/2
+		drawRectangle(screen, startX, startY, len(text)+2, gameOverBoxHeight, tcell.StyleDefault)
+		startX = startX + 1
+		for index, r := range text {
+			screen.SetContent(startX+index, startY+(cellHeight-1)/2, r, nil, tcell.StyleDefault)
+		}
 	}
 
 	screen.Show()

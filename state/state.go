@@ -9,6 +9,7 @@ type GameSession struct {
 	Mutex                     *sync.Mutex
 	renderNotificationChannel chan bool
 
+	score     uint
 	GameOver  bool
 	GameBoard [4][4]uint
 }
@@ -19,6 +20,7 @@ func NewGameSession(renderNotificationChannel chan bool) *GameSession {
 		Mutex:                     &sync.Mutex{},
 		renderNotificationChannel: renderNotificationChannel,
 
+		score:     0,
 		GameOver:  false,
 		GameBoard: [4][4]uint{},
 	}
@@ -29,7 +31,45 @@ func NewGameSession(renderNotificationChannel chan bool) *GameSession {
 	return session
 }
 
+func isGameOver(board [4][4]uint) bool {
+	for _, row := range board {
+		var prevCell uint
+		for _, cell := range row {
+			//At least one more left / right move possible.
+			if cell == 0 || prevCell == cell {
+				return false
+			}
+
+			prevCell = cell
+		}
+	}
+
+	for cellIndex := 0; cellIndex < len(board); cellIndex++ {
+		var prevCell uint
+		for rowIndex := 0; rowIndex < len(board); rowIndex++ {
+			cell := board[rowIndex][cellIndex]
+			//At least one more left / right move possible.
+			if cell == 0 || prevCell == cell {
+				return false
+			}
+
+			prevCell = cell
+		}
+	}
+
+	return true
+}
+
 func (session *GameSession) update() {
+	var score uint
+	for _, row := range session.GameBoard {
+		for _, cell := range row {
+			score += cell
+		}
+	}
+	session.score = score
+	session.GameOver = isGameOver(session.GameBoard)
+
 	// In order to avoid dead-locking the caller.
 	go func() {
 		session.renderNotificationChannel <- true
@@ -60,18 +100,20 @@ func (session *GameSession) fillCell() {
 }
 
 func (session *GameSession) Down() {
-	session.downNoFill()
-	session.fillCell()
-	session.update()
+	if session.downNoFill() {
+		session.fillCell()
+		session.update()
+	}
 }
 
 // downNoFill is necessary for proper unit testing without the
 // randomness factor.
-func (session *GameSession) downNoFill() {
+func (session *GameSession) downNoFill() bool {
 	if session.GameOver {
-		return
+		return false
 	}
 
+	var hasChanged bool
 	for cellIndex := 0; cellIndex < len(session.GameBoard); cellIndex++ {
 		//Combination run
 		//We combine from top to bottom, since that's how the original game
@@ -102,31 +144,38 @@ func (session *GameSession) downNoFill() {
 			if moveTo != -1 {
 				session.GameBoard[moveTo][cellIndex] = cell
 				session.GameBoard[rowIndex][cellIndex] = 0
+				hasChanged = true
 			}
 		}
 	}
+
+	return hasChanged
 }
 
 func (session *GameSession) Up() {
-	session.upNoFill()
-	session.fillCell()
-	session.update()
+	if session.upNoFill() {
+		session.fillCell()
+		session.update()
+	}
 }
 
-func (session *GameSession) upNoFill() {
+func (session *GameSession) upNoFill() bool {
 	if session.GameOver {
-		return
+		return false
 	}
 
+	var hasChanged bool
 	for cellIndex := 0; cellIndex < len(session.GameBoard); cellIndex++ {
 		//Combination run
 		//We combine from top to bottom, since that's how the original game
 		//does it. So 2,2,2,0 would become 4,0,2,0
-		session.combineVertically(
+		if session.combineVertically(
 			0,
 			func(i int) bool { return i < len(session.GameBoard) },
 			func(i int) int { return i + 1 },
-			cellIndex)
+			cellIndex) {
+			hasChanged = true
+		}
 
 		//Shifting run
 		//The previously combined 4,0,2,0 now becomes 4,2,0,0
@@ -148,12 +197,16 @@ func (session *GameSession) upNoFill() {
 			if moveTo != -1 {
 				session.GameBoard[moveTo][cellIndex] = cell
 				session.GameBoard[rowIndex][cellIndex] = 0
+				hasChanged = true
 			}
 		}
 	}
+
+	return hasChanged
 }
 
-func (session *GameSession) combineVertically(start int, resume func(int) bool, update func(int) int, cellIndex int) {
+func (session *GameSession) combineVertically(start int, resume func(int) bool, update func(int) int, cellIndex int) bool {
+	var hasChanged bool
 	indexLastNonZero := -1
 	for rowIndex := start; resume(rowIndex); rowIndex = update(rowIndex) {
 		cell := session.GameBoard[rowIndex][cellIndex]
@@ -169,26 +222,33 @@ func (session *GameSession) combineVertically(start int, resume func(int) bool, 
 		session.GameBoard[indexLastNonZero][cellIndex] = cell * 2
 		session.GameBoard[rowIndex][cellIndex] = 0
 		indexLastNonZero = -1
+		hasChanged = true
 	}
+
+	return hasChanged
 }
 
 func (session *GameSession) Left() {
-	session.leftNoFill()
-	session.fillCell()
-	session.update()
+	if session.leftNoFill() {
+		session.fillCell()
+		session.update()
+	}
 }
 
-func (session *GameSession) leftNoFill() {
+func (session *GameSession) leftNoFill() bool {
 	if session.GameOver {
-		return
+		return false
 	}
 
+	var hasChanged bool
 	for rowIndex := 0; rowIndex < len(session.GameBoard); rowIndex++ {
 		//Combination run
-		session.combineHorizontally(0,
+		if session.combineHorizontally(0,
 			func(i int) bool { return i < len(session.GameBoard) },
 			func(i int) int { return i + 1 },
-			rowIndex)
+			rowIndex) {
+			hasChanged = true
+		}
 
 		//Shifting run
 		//The previously combined 4,0,2,0 now becomes 4,2,0,0
@@ -210,32 +270,38 @@ func (session *GameSession) leftNoFill() {
 			if moveTo != -1 {
 				session.GameBoard[rowIndex][moveTo] = cell
 				session.GameBoard[rowIndex][cellIndex] = 0
+				hasChanged = true
 			}
 		}
 	}
 
+	return hasChanged
 }
 
 func (session *GameSession) Right() {
-	session.rightNoFill()
-	session.fillCell()
-	session.update()
+	if session.rightNoFill() {
+		session.fillCell()
+		session.update()
+	}
 }
 
-func (session *GameSession) rightNoFill() {
+func (session *GameSession) rightNoFill() bool {
 	if session.GameOver {
-		return
+		return false
 	}
 
+	var hasChanged bool
 	for rowIndex := 0; rowIndex < len(session.GameBoard); rowIndex++ {
 		//Combination run
 		//We combine from top to bottom, since that's how the original game
 		//does it. So 2,2,2,0 would become 4,0,2,0
-		session.combineHorizontally(
+		if session.combineHorizontally(
 			len(session.GameBoard)-1,
 			func(i int) bool { return i >= 0 },
 			func(i int) int { return i - 1 },
-			rowIndex)
+			rowIndex) {
+			hasChanged = true
+		}
 
 		//Shifting run
 		//The previously combined 4,0,2,0 now becomes 4,2,0,0
@@ -257,12 +323,16 @@ func (session *GameSession) rightNoFill() {
 			if moveTo != -1 {
 				session.GameBoard[rowIndex][moveTo] = cell
 				session.GameBoard[rowIndex][cellIndex] = 0
+				hasChanged = true
 			}
 		}
 	}
+
+	return hasChanged
 }
 
-func (session *GameSession) combineHorizontally(start int, resume func(int) bool, update func(int) int, rowIndex int) {
+func (session *GameSession) combineHorizontally(start int, resume func(int) bool, update func(int) int, rowIndex int) bool {
+	var hasChanged bool
 	indexLastNonZero := -1
 	for cellIndex := start; resume(cellIndex); cellIndex = update(cellIndex) {
 		cell := session.GameBoard[rowIndex][cellIndex]
@@ -278,5 +348,12 @@ func (session *GameSession) combineHorizontally(start int, resume func(int) bool
 		session.GameBoard[rowIndex][indexLastNonZero] = cell * 2
 		session.GameBoard[rowIndex][cellIndex] = 0
 		indexLastNonZero = -1
+		hasChanged = true
 	}
+
+	return hasChanged
+}
+
+func (session *GameSession) Score() uint {
+	return session.score
 }
