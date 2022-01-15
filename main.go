@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/Bios-Marcel/2048/state"
+	"github.com/Bios-Marcel/2048-terminal/state"
 	"github.com/gdamore/tcell/v2"
 )
 

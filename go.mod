@@ -1,4 +1,4 @@
-module github.com/Bios-Marcel/2048
+module github.com/Bios-Marcel/2048-terminal
 
 go 1.17
 
