@@ -1,13 +1,18 @@
 package main
 
 import (
+	"math/rand"
 	"os"
+	"time"
 
 	"github.com/Bios-Marcel/2048/state"
 	"github.com/gdamore/tcell/v2"
 )
 
 func main() {
+	//Otherwise we'll always start on the same tile.
+	rand.Seed(time.Now().Unix())
+
 	screen, screenCreationError := createScreen()
 	if screenCreationError != nil {
 		panic(screenCreationError)
