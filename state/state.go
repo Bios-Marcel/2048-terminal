@@ -118,11 +118,13 @@ func (session *GameSession) downNoFill() bool {
 		//Combination run
 		//We combine from top to bottom, since that's how the original game
 		//does it. So 2,2,2,0 would become 4,0,2,0
-		session.combineVertically(
+		if session.combineVertically(
 			len(session.GameBoard)-1,
 			func(i int) bool { return i >= 0 },
 			func(i int) int { return i - 1 },
-			cellIndex)
+			cellIndex) {
+			hasChanged = true
+		}
 
 		//Shifting run
 		//The previously combined 4,0,2,0 now becomes 4,2,0,0
